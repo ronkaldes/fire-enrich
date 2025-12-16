@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 //Enrich Specific Components
 import { CSVUploader } from "./fire-enrich/csv-uploader";
+import { SingleEmailInput } from "./fire-enrich/single-email-input";
 import { UnifiedEnrichmentView } from "./fire-enrich/unified-enrichment-view";
 import { EnrichmentTable } from "./fire-enrich/enrichment-table";
 import { CSVRow, EnrichmentField } from "@/lib/types";
@@ -46,6 +47,7 @@ import Input from "@/components/ui/input";
 export default function HomePage() {
   //enrich-states
   const [step, setStep] = useState<"upload" | "setup" | "enrichment">("upload");
+  const [uploadMode, setUploadMode] = useState<"csv" | "single">("csv");
   const [csvData, setCsvData] = useState<{
     rows: CSVRow[];
     columns: string[];
@@ -398,7 +400,33 @@ export default function HomePage() {
                     </div>
                   ) : (
                     <div className="w-full">
-                      <CSVUploader onUpload={handleCSVUpload} />
+                      <div className="flex gap-2 mb-6 p-1 bg-accent-white border border-border-muted rounded-lg">
+                        <button
+                          onClick={() => setUploadMode("csv")}
+                          className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-all ${
+                            uploadMode === "csv"
+                              ? "bg-heat-100 text-white shadow-sm"
+                              : "text-black-alpha-64 hover:text-accent-black"
+                          }`}
+                        >
+                          CSV Upload
+                        </button>
+                        <button
+                          onClick={() => setUploadMode("single")}
+                          className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-all ${
+                            uploadMode === "single"
+                              ? "bg-heat-100 text-white shadow-sm"
+                              : "text-black-alpha-64 hover:text-accent-black"
+                          }`}
+                        >
+                          Single Email
+                        </button>
+                      </div>
+                      {uploadMode === "csv" ? (
+                        <CSVUploader onUpload={handleCSVUpload} />
+                      ) : (
+                        <SingleEmailInput onSubmit={handleCSVUpload} />
+                      )}
                     </div>
                   )}
                 </div>

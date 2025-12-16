@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ExternalLink, Loader2 } from "lucide-react";
 import { CSVUploader } from "./csv-uploader";
+import { SingleEmailInput } from "./single-email-input";
 import { UnifiedEnrichmentView } from "./unified-enrichment-view";
 import { EnrichmentTable } from "./enrichment-table";
 import { CSVRow, EnrichmentField } from "@/lib/types";
@@ -22,6 +23,7 @@ import { toast } from "sonner";
 
 export default function CSVEnrichmentPage() {
   const [step, setStep] = useState<"upload" | "setup" | "enrichment">("upload");
+  const [uploadMode, setUploadMode] = useState<"csv" | "single">("csv");
   const [csvData, setCsvData] = useState<{
     rows: CSVRow[];
     columns: string[];
@@ -265,7 +267,37 @@ export default function CSVEnrichmentPage() {
             </Button>
           )}
 
-          {step === "upload" && <CSVUploader onUpload={handleCSVUpload} />}
+          {step === "upload" && (
+            <>
+              <div className="flex gap-2 mb-6 p-1 bg-white border border-gray-200 rounded-lg max-w-md mx-auto">
+                <button
+                  onClick={() => setUploadMode("csv")}
+                  className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-all ${
+                    uploadMode === "csv"
+                      ? "bg-orange-500 text-white shadow-sm"
+                      : "text-gray-600 hover:text-gray-900"
+                  }`}
+                >
+                  CSV Upload
+                </button>
+                <button
+                  onClick={() => setUploadMode("single")}
+                  className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-all ${
+                    uploadMode === "single"
+                      ? "bg-orange-500 text-white shadow-sm"
+                      : "text-gray-600 hover:text-gray-900"
+                  }`}
+                >
+                  Single Email
+                </button>
+              </div>
+              {uploadMode === "csv" ? (
+                <CSVUploader onUpload={handleCSVUpload} />
+              ) : (
+                <SingleEmailInput onSubmit={handleCSVUpload} />
+              )}
+            </>
+          )}
 
           {step === "setup" && csvData && (
             <UnifiedEnrichmentView
