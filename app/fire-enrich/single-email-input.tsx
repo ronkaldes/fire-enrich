@@ -49,7 +49,7 @@ export function SingleEmailInput({ onSubmit }: SingleEmailInputProps) {
     }, 100);
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !isProcessing) {
       handleSubmit();
     }
@@ -96,7 +96,7 @@ export function SingleEmailInput({ onSubmit }: SingleEmailInputProps) {
                 placeholder="example@company.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                onKeyPress={handleKeyPress}
+                onKeyDown={handleKeyDown}
                 disabled={isProcessing}
                 className="w-full"
               />
@@ -115,7 +115,7 @@ export function SingleEmailInput({ onSubmit }: SingleEmailInputProps) {
                 placeholder="John Doe"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                onKeyPress={handleKeyPress}
+                onKeyDown={handleKeyDown}
                 disabled={isProcessing}
                 className="w-full"
               />
