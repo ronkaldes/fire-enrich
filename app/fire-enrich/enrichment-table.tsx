@@ -34,12 +34,14 @@ interface EnrichmentTableProps {
   rows: CSVRow[];
   fields: EnrichmentField[];
   emailColumn?: string;
+  onReset?: () => void;
 }
 
 export function EnrichmentTable({
   rows,
   fields,
   emailColumn,
+  onReset,
 }: EnrichmentTableProps) {
   const [results, setResults] = useState<Map<number, RowEnrichmentResult>>(
     new Map(),
@@ -801,6 +803,15 @@ export function EnrichmentTable({
                     JSON
                   </button>
                 </>
+              )}
+
+              {(status === "completed" || status === "cancelled") && onReset && (
+                <button
+                  onClick={onReset}
+                  className="rounded-6 px-8 py-4 gap-2 text-body-small text-white bg-heat-100 hover:bg-heat-80 transition-colors flex items-center"
+                >
+                  Start New Enrichment
+                </button>
               )}
 
               {status === "processing" && (

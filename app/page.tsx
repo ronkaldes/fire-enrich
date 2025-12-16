@@ -367,6 +367,7 @@ export default function HomePage() {
                         rows={csvData.rows}
                         fields={selectedFields}
                         emailColumn={emailColumn}
+                        onReset={resetProcess}
                       />
                     </motion.div>
                   )}
